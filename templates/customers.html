@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="col-md-10 col-lg-10">
+    <h1 class="mb-4">Kundeoversikt</h1>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ 'danger' if category == 'error' else category }} text-center border-bottom alert-dismissible fade show mt-3" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <div class="table-responsive">
+        <table class="table">
+            <thread>
+                <tr>
+                    <th scope="col">Navn</th>
+                    <th scope="col">Type</th>
+                    <th scope="col"># Ordre</th>
+                    <th scope="col">E-post</th>
+                    <th scope="col">Telefon</th>
+                    <th scope="col">Fakturaaddresse</th>
+                    <th scope="col">Leveringsaddresse</th>
+                </tr>
+            </thread>
+            <tbody>
+                {% for customer in customers %}
+                <tr>
+                    <th scope="row">{{ customer.cust_name }}</th>
+                    <td>{{ customer.cust_type }}</td>
+                    <td>{{ customer.order_count }}</td>
+                    <td>{{ customer.email }}</td>
+                    <td>
+                        {% for phone in customer.phones %}
+                        {{ phone[:2] }} {{ phone[2:5] }} {{ phone[5:] }}{% if not loop.last %},<br>{% endif %}
+                        {% endfor %}
+                    </td>
+                    <td>{{ customer.billing_street }} {{ customer.billing_house }} <br> {{ customer.billing_code }} {{ customer.billing_city }}</td>
+                    <td>{{ customer.delivery_street }} {{ customer.delivery_house }} <br> {{ customer.delivery_code }} {{ customer.delivery_city }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <a href="{{url_for('nykunde')}}" class="btn btn-primary"> Registrer ny kunde </a>
+    <a href="{{url_for('change_customer')}}" class="btn btn-primary">Endre eksisterende kunde</a>
+</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="col-md-8 col-lg-8">
+
+<img src="/static/404.jpg" class="img-fluid" alt="Absolutely nothing to see here">
+
+<h1 class="display-5">{{ eq_info.type }} {{ eq_info.brand }} {{eq_info.model}}</h3>
+<h5 class="text-muted">{{ eq_info.dayprice }} kroner per døgn, {{ available }} stk tilgjengelig nå</h5>
+
+<p>{{ eq_info.description }}</p>
+
+<p class="mt-3"><a href="{{ url_for('display_equipment') }}">Gå tilbake</a></p>
+
+</div>
+
+{% endblock %}

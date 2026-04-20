@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="col-md-6 col-lg-5">
+<h1 class="mb-4">Registrer ny kunde</h1>
+<form method = "POST">
+    {{ form.hidden_tag() }}
+    
+
+    <div class="mb-3"> 
+        {{ form.name.label(class="form-label") }}
+        {{ form.name(class="form-control") }}
+        {% for err in form.name.errors %}
+            <small class="text-danger">{{ err }}</small>
+        {% endfor %}
+    </div>
+
+    <div class="mb-3"> 
+        {{ form.type.label(class="form-label") }}
+        {{ form.type(class="form-control") }}
+    </div>
+
+    <div class="mb-3"> 
+        {{ form.email.label(class="form-label") }}
+        {{ form.email(class="form-control") }}
+        {% for err in form.email.errors %}
+            <small class="text-danger">{{ err }}</small>
+        {% endfor %}
+    </div>
+
+    <div class="mb-3"> 
+        {{ form.phone.label(class="form-label") }}
+        {{ form.phone(class="form-control") }}
+        {% for err in form.phone.errors %}
+            <small class="text-danger">{{ err }}</small>
+        {% endfor %}
+    </div>
+
+    <div class="container border">
+    <h5 class="form-label">Leveringsaddresse</h5>
+    <div class="mb-3"> 
+        {{ form.delivery_street.label(class="form-label") }}
+        {{ form.delivery_street(class="form-control") }}
+        {% for err in form.delivery_street.errors %}
+            <small class="text-danger">{{ err }}</small>
+        {% endfor %}
+    </div>
+
+    <div class="mb-3"> 
+        {{ form.delivery_house.label(class="form-label") }}
+        {{ form.delivery_house(class="form-control") }}
+        {% for err in form.delivery_house.errors %}
+            <small class="text-danger">{{ err }}</small>
+        {% endfor %}
+    </div>
+
+    <div class="mb-3"> 
+        {{ form.delivery_code.label(class="form-label") }}
+        {{ form.delivery_code(class="form-control") }}
+        {% for err in form.delivery_code.errors %}
+            <small class="text-danger">{{ err }}</small>
+        {% endfor %}
+    </div>
+
+    <div class="mb-3"> 
+        {{ form.delivery_city.label(class="form-label") }}
+        {{ form.delivery_city(class="form-control") }}
+        {% for err in form.delivery_city.errors %}
+            <small class="text-danger">{{ err }}</small>
+        {% endfor %}
+    </div>
+    </div>
+
+    <div class="container border">
+        <h5 class="form-label">Fakturaaddresse</h5>
+        <div class="mb-3"> 
+            {{ form.billing_street.label(class="form-label") }}
+            {{ form.billing_street(class="form-control") }}
+            {% for err in form.billing_street.errors %}
+                <small class="text-danger">{{ err }}</small>
+            {% endfor %}
+        </div>
+
+        <div class="mb-3"> 
+            {{ form.billing_house.label(class="form-label") }}
+            {{ form.billing_house(class="form-control") }}
+            {% for err in form.billing_house.errors %}
+                <small class="text-danger">{{ err }}</small>
+            {% endfor %}
+        </div>
+
+        <div class="mb-3"> 
+            {{ form.billing_code.label(class="form-label") }}
+            {{ form.billing_code(class="form-control") }}
+            {% for err in form.billing_code.errors %}
+                <small class="text-danger">{{ err }}</small>
+            {% endfor %}
+        </div>
+
+        <div class="mb-3"> 
+            {{ form.billing_city.label(class="form-label") }}
+            {{ form.billing_city(class="form-control") }}
+            {% for err in form.billing_city.errors %}
+                <small class="text-danger">{{ err }}</small>
+            {% endfor %}
+        </div>
+    </div>
+    {{ form.submit(class="btn btn-primary") }}
+
+
+</form>
+
+<p class="mt-3"><a href="{{ url_for('display_customers') }}">Gå tilbake</a></p>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ 'danger' if category == 'error' else category }} text-center border-bottom alert-dismissible fade show mt-3" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+{% endif %}
+{% endwith %}
+
+</div>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="col-md-6 col-lg-5">
+    <h1 class="mb-4">Registrer innlevert utstyr</h1>
+    {% if rentals %}
+    <form method="POST" action="{{ url_for('return_equipment') }}">
+        {{ form.hidden_tag() }}
+        <div class="list-group">
+            {% for rental in rentals %}
+            <label class="list-group-item list-group-item-action d-flex gap-3 py-3" style="cursor: pointer;">
+                <input class="form-check-input flex-shrink-0" type="checkbox" name="rental_ids" value="{{ rental.id }}" id="rental-{{ rental.id }}">       
+                <div class="d-flex gap-2 w-100 justify-content-between">
+                        <p class="mb-0">{{ rental.id }}</p>
+                        <p class="mb-0">{{ rental.brand }}</p>
+                        <p class="mb-0">{{ rental.model }}</p>
+                        <p class="mb-0">{{ rental.eq_id ~ "-" ~ rental.inst_id }}</p>
+                        <p class="mb-0">Kunde: {{ rental.cust_name }}</p>
+                        <p class="mb-0">Utleid: {{ rental.dateout.strftime('%d.%m.%Y') }}</p>
+                </div>
+            </label>
+            {% endfor %}
+        </div>    
+        <div class="d-grid gap-2 mt-4">
+            <button type="submit" class="btn btn-success btn-lg">Bekreft innlevering</button>
+        </div>
+    </form>
+    {% else %}
+    <div class="alert alert-info">Det finnes ingen aktive utleier å registrere innlevering for.</div>
+    {% endif %}
+    <p class="mt-3"><a href="{{ url_for('dashboard') }}">Gå tilbake</a></p>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ 'danger' if category == 'error' else category }} text-center border-bottom alert-dismissible fade show mt-3" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+</div>
+    
+
+
+<script>
+    document.querySelectorAll('.list-group-item').forEach(item => {
+        item.addEventListener('click', function(e) {
+            if (e.target.type !== 'checkbox') {
+                const checkbox = this.querySelector('input[type="checkbox"]');
+                checkbox.checked = !checkbox.checked;
+            }
+        });
+    });
+</script>
+
+{% endblock %}

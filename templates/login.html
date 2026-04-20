@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1 class="mb-4">Logg inn</h1>
+{% if error %}
+<div class="alert alert-danger">{{ error }}</div>
+{% endif %}
+
+<form method="POST">
+    {{ form.hidden_tag() }}
+    <div class="mb-3">
+        {{ form.username.label(class="form-label") }}
+        {{ form.username(class="form-control") }}
+        {% for err in form.username.errors %}
+            <small class="text-danger">{{ err }}</small>
+        {% endfor %}
+    </div>
+
+    <div class="mb-3">
+        {{ form.password.label(class="form-label") }}
+        {{ form.password(class="form-control") }}
+        {% for err in form.password.errors %}
+            <small class="text-danger">{{ err }}</small>
+        {% endfor%}
+    </div>
+    {{ form.submit(class="btn btn-primary") }}
+
+</form>
+
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="col-md-10 col-lg-10">
+    <h1 class="mb-4">Utstyroversikt</h1>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ 'danger' if category == 'error' else category }} text-center border-bottom alert-dismissible fade show mt-3" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <div class="table-responsive">
+        <table class="table">
+            <thread>
+                <tr> <!--Expand to read description link-->
+                    <th scope="col">ID</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Merke</th>
+                    <th scope="col">Modell</th>
+                    <th scope="col">Neste vedlikehold</th>
+                    <th scope="col">Siste vedlikehold</th>
+                    <th scope="col">Antall utleier</th>
+                    <th scope="col">Fortjeneste</th>
+                    <th scope="col">Mer info</th>
+                </tr>
+            </thread>
+            <tbody>
+                {% for equipment in equipment %}
+                <tr class="{{ 'table-success' if equipment.status == 'Tilgjengelig' else 'table' }}">
+                    
+
+                    <th scope="row">{{ equipment.eq_id }}-{{ equipment.inst_id}}</th>
+                    <td>{{ equipment.status }}</td> <!--FORMAT!-->
+                    <td>{{ equipment.type }}</td>
+                    <td>{{ equipment.brand }}</td>
+                    <td>{{ equipment.model }}</td>
+                    <td class="{{ 'text-danger fw-bold' if equipment.days_until_maint <= 30 else 'text-body' }}">{{ equipment.next_maint }} ({{ equipment.days_until_maint }} dager fra nå)</td>
+                    <td>{{ equipment.prev_maint }}</td>
+                    <td>{{ equipment.amount_of_orders }}</td>
+                    <td>{{ equipment.calculate_total_profit() }} NOK</td>
+                    <td><a href="{{url_for('display_item', eq_id=equipment.eq_id)}}">Klikk her for å se mer</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
